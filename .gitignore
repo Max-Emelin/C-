@@ -1,0 +1,22 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/60Names/SQL_data.txt
+/60Names/60Names/bin/Debug/net8.0/cs
+/60Names/60Names/bin/Debug/net8.0/de
+/60Names/60Names/bin/Debug/net8.0/es
+/60Names/60Names/bin/Debug/net8.0/fr
+/60Names/60Names/bin/Debug/net8.0/it
+/60Names/60Names/bin/Debug/net8.0/ja
+/60Names/60Names/bin/Debug/net8.0/ko
+/60Names/60Names/bin/Debug/net8.0/pl
+/60Names/60Names/bin/Debug/net8.0/pt-BR
+/60Names/60Names/bin/Debug/net8.0/ru
+/60Names/60Names/bin/Debug/net8.0/runtimes/unix/lib/net6.0
+/60Names/60Names/bin/Debug/net8.0/runtimes
+/60Names/60Names/bin/Debug/net8.0/tr
+/60Names/60Names/bin/Debug/net8.0/zh-Hans
+/60Names/60Names/bin/Debug/net8.0/zh-Hant
+/.vs
+/60Names/.vs
