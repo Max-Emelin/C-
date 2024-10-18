@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Cell/wwwroot/Images
 /NewProjects/WebApp/wwwroot/lib/bootstrap
+/NewProjects/RunGroopWebApp/wwwroot
