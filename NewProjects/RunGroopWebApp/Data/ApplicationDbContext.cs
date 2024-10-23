@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RunGroopWebApp.Data.Enum;
 using RunGroopWebApp.Models;
 
 namespace RunGroopWebApp.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public DbSet<Race> Races { get; set; }
         public DbSet<Club> Clubs { get; set; }
@@ -13,9 +14,10 @@ namespace RunGroopWebApp.Data
         {
             Database.EnsureCreated();
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Address>().HasData(
                 new Address { Id = 1, Street = "123 Main St", City = "Charlotte", State = "NC" },
                 new Address { Id = 2, Street = "456 Elm St", City = "Charlotte", State = "NC" },
