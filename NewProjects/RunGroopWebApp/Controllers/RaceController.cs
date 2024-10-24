@@ -8,10 +8,12 @@ namespace RunGroopWebApp.Controllers
     public class RaceController : Controller
     {
         private readonly IRaceRepository _raceRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public RaceController(IRaceRepository raceRepository)
+        public RaceController(IRaceRepository raceRepository, IHttpContextAccessor httpContextAccessor)
         {
             _raceRepository = raceRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -36,9 +38,11 @@ namespace RunGroopWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                race.AppUserId = _httpContextAccessor.HttpContext.User.GetUserId();
+
                 _raceRepository.Add(race);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Dashboard");
             }
 
             return View(race);
@@ -58,10 +62,35 @@ namespace RunGroopWebApp.Controllers
             {
                 _raceRepository.Update(race);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Dashboard");
             }
 
             return View(race);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var clubDetails = await _raceRepository.GetByIdAsync(id);
+
+            if (clubDetails == null) return View("Error");
+
+            return View(clubDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteClub(int id)
+        {
+            var raceDetails = await _raceRepository.GetByIdAsync(id);
+
+            if (raceDetails == null)
+            {
+                return View("Error");
+            }
+
+            _raceRepository.Delete(raceDetails);
+
+            return RedirectToAction("Index");
         }
     }
 }

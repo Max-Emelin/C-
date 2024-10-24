@@ -7,10 +7,12 @@ namespace RunGroopWebApp.Controllers
     public class ClubController : Controller
     {
         private readonly IClubRepository _clubRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ClubController(IClubRepository clubRepository)
+        public ClubController(IClubRepository clubRepository, IHttpContextAccessor httpContextAccessor)
         {
             _clubRepository = clubRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -35,9 +37,11 @@ namespace RunGroopWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                club.AppUserId = _httpContextAccessor.HttpContext.User.GetUserId();
+
                 _clubRepository.Add(club);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Dashboard");
             }
 
             return View(club);
@@ -57,10 +61,34 @@ namespace RunGroopWebApp.Controllers
             {
                 _clubRepository.Update(club);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Dashboard");
             }
 
             return View(club);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var clubDetails = await _clubRepository.GetByIdAsync(id);
+
+            if (clubDetails == null) return View("Error");
+
+            return View(clubDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteClub(int id)
+        {
+            var clubDetails = await _clubRepository.GetByIdAsync(id);
+
+            if (clubDetails == null)
+            {
+                return View("Error");
+            }
+
+            _clubRepository.Delete(clubDetails);
+
+            return RedirectToAction("Index");
         }
     }
 }
