@@ -1,9 +1,6 @@
 ﻿@model IEnumerable<Race>
 
 <div class="album py-5 bg-body-tertiary">
-    <div class="text-center mb-3">
-        <a class="btn btn-primary" asp-controller="Race" asp-action="Create">Create</a>
-    </div>
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (var race in Model)
